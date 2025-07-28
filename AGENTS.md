@@ -2,7 +2,7 @@
 
 This will be an [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) server to interact with a knowledge graph.
 
-There should be 7 tools:
+There should be 6 tools:
 
 1. create_entities
 2. delete_entities
@@ -10,7 +10,6 @@ There should be 7 tools:
 4. create_relationships
 5. delete_relationships
 6. search_graph
-7. read_entities
 
 The graph will be store in a JSON file. The JSON object will have the following structure:
 
