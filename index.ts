@@ -3,6 +3,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
 import { searchGraph } from './search-graph'
 import { createEntities } from './create-entities'
+import { deleteEntities } from './delete-entities'
 
 export type Entity = {
 	name: string
@@ -107,6 +108,31 @@ server.registerTool(
 				{
 					type: 'text' as const,
 					text: `Created ${entity_names.length} entities: ${entity_names.join(', ')}`,
+				},
+			],
+		}
+	},
+)
+
+server.registerTool(
+	'delete_entities',
+	{
+		title: 'Delete entities',
+		description: 'Delete entities from the graph along with their relationships.',
+		inputSchema: {
+			entity_names: z.array(z.string()),
+		},
+	},
+	async ({ entity_names }) => {
+		const graph = await loadGraph()
+		const updatedGraph = deleteEntities(graph, entity_names)
+		await saveGraph(updatedGraph)
+
+		return {
+			content: [
+				{
+					type: 'text' as const,
+					text: `Deleted ${entity_names.length} entities: ${entity_names.join(', ')}`,
 				},
 			],
 		}
