@@ -1,5 +1,5 @@
 import { test, expect } from 'bun:test'
-import { parseSearchTerms, searchGraph } from './index.ts'
+import { parseSearchTerms, searchGraph } from './search-graph.ts'
 import type { Graph } from './index.ts'
 
 test('parseSearchTerms splits by spaces', () => {
@@ -35,32 +35,28 @@ const mockGraph: Graph = {
 	entities: [
 		{
 			name: 'John Smith',
-			observations: [
-				{ datetime: '2025-07-28 14:30:45', text: 'John Smith is a carpenter.' }
-			]
+			observations: [{ datetime: '2025-07-28 14:30:45', text: 'John Smith is a carpenter.' }],
 		},
 		{
 			name: 'Tim Smith',
-			observations: [
-				{ datetime: '2025-07-28 15:00:00', text: 'Tim is studying engineering.' }
-			]
+			observations: [{ datetime: '2025-07-28 15:00:00', text: 'Tim is studying engineering.' }],
 		},
 		{
 			name: 'Alice Johnson',
-			observations: []
-		}
+			observations: [],
+		},
 	],
 	relationships: [
 		{ from: 'John Smith', type: 'father of', to: 'Tim Smith' },
-		{ from: 'Alice Johnson', type: 'friend of', to: 'Tim Smith' }
-	]
+		{ from: 'Alice Johnson', type: 'friend of', to: 'Tim Smith' },
+	],
 }
 
 test('searchGraph finds entities by name', () => {
 	const result = searchGraph(mockGraph, 'John')
 	expect(result.entities).toHaveLength(2)
-	expect(result.entities.map(e => e.name)).toContain('John Smith')
-	expect(result.entities.map(e => e.name)).toContain('Alice Johnson')
+	expect(result.entities.map((e) => e.name)).toContain('John Smith')
+	expect(result.entities.map((e) => e.name)).toContain('Alice Johnson')
 })
 
 test('searchGraph finds entities by observation text', () => {
@@ -84,8 +80,8 @@ test('searchGraph finds relationships by type', () => {
 test('searchGraph is case insensitive', () => {
 	const result = searchGraph(mockGraph, 'JOHN')
 	expect(result.entities).toHaveLength(2)
-	expect(result.entities.map(e => e.name)).toContain('John Smith')
-	expect(result.entities.map(e => e.name)).toContain('Alice Johnson')
+	expect(result.entities.map((e) => e.name)).toContain('John Smith')
+	expect(result.entities.map((e) => e.name)).toContain('Alice Johnson')
 })
 
 test('searchGraph handles multiple search terms', () => {

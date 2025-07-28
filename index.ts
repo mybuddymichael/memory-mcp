@@ -1,6 +1,8 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
+import { searchGraph } from './search-graph'
+import { createEntities } from './create-entities'
 
 export type Entity = {
 	name: string
@@ -47,60 +49,20 @@ async function loadGraph(): Promise<Graph> {
 	}
 }
 
+async function saveGraph(graph: Graph): Promise<void> {
+	try {
+		const file = Bun.file(memoryFilePath)
+		await Bun.write(file, JSON.stringify(graph, null, 2))
+	} catch (error) {
+		console.error('Error saving graph:', error)
+		throw error
+	}
+}
+
 const server = new McpServer({
 	name: 'memory',
 	version: '0.0.1',
 })
-
-export function parseSearchTerms(keywords: string): string[] {
-	const terms: string[] = []
-	let current = ''
-	let inQuotes = false
-	let quoteChar = ''
-
-	for (const char of keywords) {
-		if ((char === '"' || char === "'") && !inQuotes) {
-			inQuotes = true
-			quoteChar = char
-		} else if (char === quoteChar && inQuotes) {
-			inQuotes = false
-			quoteChar = ''
-		} else if (char === ' ' && !inQuotes) {
-			if (current) terms.push(current)
-			current = ''
-		} else {
-			current += char
-		}
-	}
-	if (current) terms.push(current)
-	return terms
-}
-
-export function searchGraph(
-	graph: Graph,
-	keywords: string,
-): { entities: Entity[]; relationships: Relationship[] } {
-	const searchTerms = parseSearchTerms(keywords).map((term) => term.toLowerCase())
-
-	const entities = graph.entities.filter((entity) =>
-		searchTerms.some(
-			(term) =>
-				entity.name.toLowerCase().includes(term) ||
-				entity.observations.some((obs) => obs.text.toLowerCase().includes(term)),
-		),
-	)
-
-	const relationships = graph.relationships.filter((rel) =>
-		searchTerms.some(
-			(term) =>
-				rel.from.toLowerCase().includes(term) ||
-				rel.to.toLowerCase().includes(term) ||
-				rel.type.toLowerCase().includes(term),
-		),
-	)
-
-	return { entities, relationships }
-}
 
 server.registerTool(
 	'search_graph',
@@ -120,6 +82,31 @@ server.registerTool(
 				{
 					type: 'text' as const,
 					text: JSON.stringify(result, null, 2),
+				},
+			],
+		}
+	},
+)
+
+server.registerTool(
+	'create_entities',
+	{
+		title: 'Create entities',
+		description: 'Create new entities in the graph.',
+		inputSchema: {
+			entity_names: z.array(z.string()),
+		},
+	},
+	async ({ entity_names }) => {
+		const graph = await loadGraph()
+		const updatedGraph = createEntities(graph, entity_names)
+		await saveGraph(updatedGraph)
+
+		return {
+			content: [
+				{
+					type: 'text' as const,
+					text: `Created ${entity_names.length} entities: ${entity_names.join(', ')}`,
 				},
 			],
 		}
