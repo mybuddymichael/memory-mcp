@@ -1,15 +1,9 @@
 # memory-mcp
 
-To install dependencies:
+This is a reimplementation of the knowledge graph server. Has several benefits:
 
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.2.18. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+- Removes redundant tools.
+- Redesigns the search tool to be more useful.
+- Uses a *much* faster Set-based lookup logic for relationships.
+- Includes a date and time in all observations.
+- Contains thorough unit tests.
