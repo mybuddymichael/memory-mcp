@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { searchGraph } from './search-graph'
 import { createEntities } from './create-entities'
 import { deleteEntities } from './delete-entities'
+import { addObservations } from './add-observations'
 
 export type Entity = {
 	name: string
@@ -133,6 +134,32 @@ server.registerTool(
 				{
 					type: 'text' as const,
 					text: `Deleted ${entity_names.length} entities: ${entity_names.join(', ')}`,
+				},
+			],
+		}
+	},
+)
+
+server.registerTool(
+	'add_observations',
+	{
+		title: 'Add observations',
+		description: 'Add observations to an existing entity in the graph.',
+		inputSchema: {
+			entity_name: z.string(),
+			observations: z.array(z.string()),
+		},
+	},
+	async ({ entity_name, observations }) => {
+		const graph = await loadGraph()
+		const updatedGraph = addObservations(graph, entity_name, observations)
+		await saveGraph(updatedGraph)
+
+		return {
+			content: [
+				{
+					type: 'text' as const,
+					text: `Added ${observations.length} observations to entity: ${entity_name}`,
 				},
 			],
 		}
