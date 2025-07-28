@@ -31,8 +31,12 @@ test('addObservations - adds observations to existing entity', () => {
 	})
 	expect(result.entities[0]!.observations[1]!.text).toBe('John Smith is a carpenter.')
 	expect(result.entities[0]!.observations[2]!.text).toBe('John Smith lives in Seattle.')
-	expect(result.entities[0]!.observations[1]!.datetime).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)
-	expect(result.entities[0]!.observations[2]!.datetime).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)
+	expect(result.entities[0]!.observations[1]!.datetime).toMatch(
+		/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
+	)
+	expect(result.entities[0]!.observations[2]!.datetime).toMatch(
+		/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
+	)
 })
 
 test('addObservations - adds observations to entity with no existing observations', () => {
@@ -46,14 +50,14 @@ test('addObservations - adds observations to entity with no existing observation
 		relationships: [],
 	}
 
-	const result = addObservations(graph, 'Jane Doe', [
-		'Jane Doe is a teacher.',
-	])
+	const result = addObservations(graph, 'Jane Doe', ['Jane Doe is a teacher.'])
 
 	expect(result.entities).toHaveLength(1)
 	expect(result.entities[0]!.observations).toHaveLength(1)
 	expect(result.entities[0]!.observations[0]!.text).toBe('Jane Doe is a teacher.')
-	expect(result.entities[0]!.observations[0]!.datetime).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)
+	expect(result.entities[0]!.observations[0]!.datetime).toMatch(
+		/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
+	)
 })
 
 test('addObservations - throws error when entity does not exist', () => {
@@ -68,9 +72,7 @@ test('addObservations - throws error when entity does not exist', () => {
 	}
 
 	expect(() => {
-		addObservations(graph, 'Non-existent Entity', [
-			'Some observation',
-		])
+		addObservations(graph, 'Non-existent Entity', ['Some observation'])
 	}).toThrow('Entity "Non-existent Entity" not found')
 })
 
@@ -126,9 +128,7 @@ test('addObservations - preserves other entities unchanged', () => {
 		],
 	}
 
-	const result = addObservations(graph, 'John Smith', [
-		'John Smith is a carpenter.',
-	])
+	const result = addObservations(graph, 'John Smith', ['John Smith is a carpenter.'])
 
 	expect(result.entities).toHaveLength(2)
 	expect(result.entities[0]!.observations).toHaveLength(1)
@@ -162,9 +162,7 @@ test('addObservations - preserves original graph immutably', () => {
 		relationships: [],
 	}
 
-	const result = addObservations(originalGraph, 'John Smith', [
-		'New observation',
-	])
+	const result = addObservations(originalGraph, 'John Smith', ['New observation'])
 
 	expect(originalGraph.entities[0]!.observations).toHaveLength(1)
 	expect(result.entities[0]!.observations).toHaveLength(2)

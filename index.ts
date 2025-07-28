@@ -5,6 +5,7 @@ import { searchGraph } from './search-graph'
 import { createEntities } from './create-entities'
 import { deleteEntities } from './delete-entities'
 import { addObservations } from './add-observations'
+import { deleteRelationships } from './delete-relationships'
 
 export type Entity = {
 	name: string
@@ -160,6 +161,37 @@ server.registerTool(
 				{
 					type: 'text' as const,
 					text: `Added ${observations.length} observations to entity: ${entity_name}`,
+				},
+			],
+		}
+	},
+)
+
+server.registerTool(
+	'delete_relationships',
+	{
+		title: 'Delete relationships',
+		description: 'Delete specific relationships from the graph.',
+		inputSchema: {
+			relationships: z.array(
+				z.object({
+					from: z.string(),
+					type: z.string(),
+					to: z.string(),
+				}),
+			),
+		},
+	},
+	async ({ relationships }) => {
+		const graph = await loadGraph()
+		const updatedGraph = deleteRelationships(graph, relationships)
+		await saveGraph(updatedGraph)
+
+		return {
+			content: [
+				{
+					type: 'text' as const,
+					text: `Deleted ${relationships.length} relationships`,
 				},
 			],
 		}
