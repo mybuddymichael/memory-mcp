@@ -69,31 +69,6 @@ const server = new McpServer({
 })
 
 server.registerTool(
-	'search_graph',
-	{
-		title: 'Search the graph',
-		description:
-			'Search the graph for nodes that match the keywords provided. Keywords should be separated by spaces. Group multiple words into a single keyword by wrapping them in a pair of quotes.',
-		inputSchema: {
-			keywords: z.string(),
-		},
-	},
-	async ({ keywords }) => {
-		const graph = await loadGraph()
-		const result = searchGraph(graph, keywords)
-
-		return {
-			content: [
-				{
-					type: 'text' as const,
-					text: JSON.stringify(result, null, 2),
-				},
-			],
-		}
-	},
-)
-
-server.registerTool(
 	'create_entities',
 	{
 		title: 'Create entities',
@@ -170,6 +145,38 @@ server.registerTool(
 )
 
 server.registerTool(
+	'create_relationships',
+	{
+		title: 'Create relationships',
+		description:
+			'Create new relationships between entities in the graph. Always use active voice for the type.',
+		inputSchema: {
+			relationships: z.array(
+				z.object({
+					from: z.string(),
+					type: z.string(),
+					to: z.string(),
+				}),
+			),
+		},
+	},
+	async ({ relationships }) => {
+		const graph = await loadGraph()
+		const updatedGraph = createRelationships(graph, relationships)
+		await saveGraph(updatedGraph)
+
+		return {
+			content: [
+				{
+					type: 'text' as const,
+					text: `Created ${relationships.length} relationships`,
+				},
+			],
+		}
+	},
+)
+
+server.registerTool(
 	'delete_relationships',
 	{
 		title: 'Delete relationships',
@@ -201,31 +208,24 @@ server.registerTool(
 )
 
 server.registerTool(
-	'create_relationships',
+	'search_graph',
 	{
-		title: 'Create relationships',
+		title: 'Search the graph',
 		description:
-			'Create new relationships between entities in the graph. Always use active voice for the type.',
+			'Search the graph for nodes that match the keywords provided. Keywords should be separated by spaces. Group multiple words into a single keyword by wrapping them in a pair of quotes.',
 		inputSchema: {
-			relationships: z.array(
-				z.object({
-					from: z.string(),
-					type: z.string(),
-					to: z.string(),
-				}),
-			),
+			keywords: z.string(),
 		},
 	},
-	async ({ relationships }) => {
+	async ({ keywords }) => {
 		const graph = await loadGraph()
-		const updatedGraph = createRelationships(graph, relationships)
-		await saveGraph(updatedGraph)
+		const result = searchGraph(graph, keywords)
 
 		return {
 			content: [
 				{
 					type: 'text' as const,
-					text: `Created ${relationships.length} relationships`,
+					text: JSON.stringify(result, null, 2),
 				},
 			],
 		}
