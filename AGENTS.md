@@ -16,22 +16,27 @@ The graph will be store in a JSON file. The JSON object will have the following 
 
 ```json
 {
-  "entities": {
-    "John Smith": {
+  "entities": [
+    {
+      "name": "John Smith",
       "observations": [
-        {"datetime": "2025-07-28 14:30:45", text: "John Smith is a carpenter." }
-      ],
+        {"datetime": "2025-07-28 14:30:45", "text": "John Smith is a carpenter."}
+      ]
     },
-    "Tim Smith": {}
-  },
+    {
+      "name": "Tim Smith",
+      "observations": []
+    }
+  ],
   "relationships": [
     {
       "from": "John Smith",
       "type": "father of",
-      "to": "Tim Smith",
+      "to": "Tim Smith"
     }
   ]
 }
+```
 
 ## Implementation strategy
 
@@ -71,5 +76,7 @@ test("hello world", () => {
   expect(1).toBe(1);
 });
 ```
+
+Bun tests share global state, so proper test cleanup is asbolutely critical.
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.md`.

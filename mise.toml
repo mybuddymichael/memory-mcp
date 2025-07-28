@@ -1,2 +1,9 @@
 [tools]
 bun = "1.2.18"
+node = "24.4.0"
+
+[tasks.test]
+run = "bun test"
+
+[tasks.format]
+run = "bunx biome format --write ."
