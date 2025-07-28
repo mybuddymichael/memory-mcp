@@ -1,0 +1,31 @@
+{
+	"name": "memory-mcp",
+	"version": "0.0.1",
+	"description": "MCP server to store and retrieve memories",
+	"type": "module",
+	"main": "dist/index.js",
+	"bin": {
+		"memory-mcp": "dist/index.js"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "bun build index.ts --outdir dist --target node",
+		"prepublishOnly": "bun run build"
+	},
+	"keywords": [
+		"mcp",
+		"modelcontextprotocol"
+	],
+	"author": "Michael Hanson",
+	"license": "MIT",
+	"dependencies": {
+		"@modelcontextprotocol/sdk": "^1.15.1"
+	},
+	"devDependencies": {
+		"@types/node": "^24.0.14",
+		"typescript": "^5.8.3",
+		"@types/bun": "latest"
+	}
+}
