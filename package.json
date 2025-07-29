@@ -27,6 +27,7 @@
 		"@biomejs/biome": "2.1.2",
 		"@types/bun": "latest",
 		"@types/node": "^24.0.14",
+		"oxlint": "^1.9.0",
 		"typescript": "^5.8.3"
 	}
 }

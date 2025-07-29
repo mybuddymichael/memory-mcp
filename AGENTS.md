@@ -79,3 +79,7 @@ test("hello world", () => {
 Bun tests share global state, so proper test cleanup is asbolutely critical.
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.md`.
+
+## Misc
+
+When finished with work, always run `mise run check` to check code quality.

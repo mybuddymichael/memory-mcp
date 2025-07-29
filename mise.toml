@@ -5,5 +5,11 @@ node = "24.4.0"
 [tasks.test]
 run = "bun test"
 
+[tasks.lint]
+run = "bunx oxlint"
+
 [tasks.format]
 run = "bunx biome format --write ."
+
+[tasks.check]
+run = ["mise run format", "mise run test", "mise run lint"]
