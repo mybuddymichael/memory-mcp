@@ -72,7 +72,8 @@ server.registerTool(
 	'create_entities',
 	{
 		title: 'Create entities',
-		description: 'Create new entities in the graph.',
+		description:
+			'Create new entities in the graph. Always use sentence case for entity names, unless they are proper nouns.',
 		inputSchema: {
 			entity_names: z.array(z.string()),
 		},
