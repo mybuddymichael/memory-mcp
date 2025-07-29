@@ -56,7 +56,7 @@ async function loadGraph(): Promise<Graph> {
 async function saveGraph(graph: Graph): Promise<void> {
 	try {
 		const file = Bun.file(memoryFilePath)
-		await Bun.write(file, JSON.stringify(graph, null, 2))
+		await Bun.write(file, JSON.stringify(graph))
 	} catch (error) {
 		console.error('Error saving graph:', error)
 		throw error
