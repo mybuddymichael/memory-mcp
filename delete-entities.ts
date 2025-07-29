@@ -1,4 +1,6 @@
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js'
 import type { Graph } from './index'
+import { loadGraph, saveGraph } from './graph'
 
 export function deleteEntities(graph: Graph, entityNames: string[]): Graph {
 	const entityNamesSet = new Set(entityNames)
@@ -13,5 +15,24 @@ export function deleteEntities(graph: Graph, entityNames: string[]): Graph {
 	return {
 		entities: filteredEntities,
 		relationships: filteredRelationships,
+	}
+}
+
+export async function deleteEntitiesHandler({
+	entity_names,
+}: {
+	entity_names: string[]
+}): Promise<CallToolResult> {
+	const graph = await loadGraph()
+	const updatedGraph = deleteEntities(graph, entity_names)
+	await saveGraph(updatedGraph)
+
+	return {
+		content: [
+			{
+				type: 'text' as const,
+				text: `Deleted ${entity_names.length} entities: ${entity_names.join(', ')}`,
+			},
+		],
 	}
 }

@@ -1,4 +1,6 @@
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js'
 import type { Graph, Relationship } from './index'
+import { loadGraph, saveGraph } from './graph'
 
 export function createRelationships(
 	graph: Graph,
@@ -27,5 +29,24 @@ export function createRelationships(
 	return {
 		...graph,
 		relationships: [...graph.relationships, ...newRelationships],
+	}
+}
+
+export async function createRelationshipsHandler({
+	relationships,
+}: {
+	relationships: Omit<Relationship, 'created'>[]
+}): Promise<CallToolResult> {
+	const graph = await loadGraph()
+	const updatedGraph = createRelationships(graph, relationships)
+	await saveGraph(updatedGraph)
+
+	return {
+		content: [
+			{
+				type: 'text' as const,
+				text: `Created ${relationships.length} relationships`,
+			},
+		],
 	}
 }

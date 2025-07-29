@@ -1,4 +1,6 @@
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js'
 import type { Graph } from './index'
+import { loadGraph, saveGraph } from './graph'
 
 export function addObservations(graph: Graph, entityName: string, observations: string[]): Graph {
 	const entityIndex = graph.entities.findIndex((entity) => entity.name === entityName)
@@ -31,5 +33,26 @@ export function addObservations(graph: Graph, entityName: string, observations: 
 	return {
 		...graph,
 		entities: updatedEntities,
+	}
+}
+
+export async function addObservationsHandler({
+	entity_name,
+	observations,
+}: {
+	entity_name: string
+	observations: string[]
+}): Promise<CallToolResult> {
+	const graph = await loadGraph()
+	const updatedGraph = addObservations(graph, entity_name, observations)
+	await saveGraph(updatedGraph)
+
+	return {
+		content: [
+			{
+				type: 'text' as const,
+				text: `Added ${observations.length} observations to entity: ${entity_name}`,
+			},
+		],
 	}
 }

@@ -1,4 +1,6 @@
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js'
 import type { Entity, Graph, Relationship } from './index'
+import { loadGraph } from './graph'
 
 export function parseSearchTerms(keywords: string): string[] {
 	const terms: string[] = []
@@ -48,4 +50,22 @@ export function searchGraph(
 	)
 
 	return { entities, relationships }
+}
+
+export async function searchGraphHandler({
+	keywords,
+}: {
+	keywords: string
+}): Promise<CallToolResult> {
+	const graph = await loadGraph()
+	const result = searchGraph(graph, keywords)
+
+	return {
+		content: [
+			{
+				type: 'text' as const,
+				text: JSON.stringify(result, null, 2),
+			},
+		],
+	}
 }
