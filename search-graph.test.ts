@@ -35,11 +35,11 @@ const mockGraph: Graph = {
 	entities: [
 		{
 			name: 'John Smith',
-			observations: [{ datetime: '2025-07-28 14:30:45', text: 'John Smith is a carpenter.' }],
+			observations: [{ created: '2025-07-28 14:30:45', text: 'John Smith is a carpenter.' }],
 		},
 		{
 			name: 'Tim Smith',
-			observations: [{ datetime: '2025-07-28 15:00:00', text: 'Tim is studying engineering.' }],
+			observations: [{ created: '2025-07-28 15:00:00', text: 'Tim is studying engineering.' }],
 		},
 		{
 			name: 'Alice Johnson',
@@ -47,8 +47,8 @@ const mockGraph: Graph = {
 		},
 	],
 	relationships: [
-		{ from: 'John Smith', type: 'father of', to: 'Tim Smith', datetime: '2025-07-28 12:00:00' },
-		{ from: 'Alice Johnson', type: 'friend of', to: 'Tim Smith', datetime: '2025-07-28 12:00:00' },
+		{ from: 'John Smith', type: 'father of', to: 'Tim Smith', created: '2025-07-28 12:00:00' },
+		{ from: 'Alice Johnson', type: 'friend of', to: 'Tim Smith', created: '2025-07-28 12:00:00' },
 	],
 }
 

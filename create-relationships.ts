@@ -1,6 +1,9 @@
 import type { Graph, Relationship } from './index'
 
-export function createRelationships(graph: Graph, relationships: Omit<Relationship, 'datetime'>[]): Graph {
+export function createRelationships(
+	graph: Graph,
+	relationships: Omit<Relationship, 'created'>[],
+): Graph {
 	const existingRelationships = new Set(
 		graph.relationships.map((rel) => `${rel.from}|${rel.type}|${rel.to}`),
 	)
@@ -18,7 +21,7 @@ export function createRelationships(graph: Graph, relationships: Omit<Relationsh
 		})
 		.map((rel) => ({
 			...rel,
-			datetime: currentTime,
+			created: currentTime,
 		}))
 
 	return {

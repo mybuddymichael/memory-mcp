@@ -19,7 +19,7 @@ The graph will be store in a JSON file. The JSON object will have the following 
     {
       "name": "John Smith",
       "observations": [
-        {"datetime": "2025-07-28 14:30:45", "text": "John Smith is a carpenter."}
+        {"created": "2025-07-28 14:30:45", "text": "John Smith is a carpenter."}
       ]
     },
     {

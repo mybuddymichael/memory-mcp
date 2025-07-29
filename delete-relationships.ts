@@ -1,6 +1,9 @@
 import type { Graph, Relationship } from './index'
 
-export function deleteRelationships(graph: Graph, relationshipsToDelete: Omit<Relationship, 'datetime'>[]): Graph {
+export function deleteRelationships(
+	graph: Graph,
+	relationshipsToDelete: Omit<Relationship, 'created'>[],
+): Graph {
 	if (relationshipsToDelete.length === 0) {
 		return graph
 	}

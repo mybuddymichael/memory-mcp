@@ -14,7 +14,7 @@ export function addObservations(graph: Graph, entityName: string, observations: 
 		.replace('T', ' ')
 
 	const formattedObservations = observations.map((text) => ({
-		datetime: currentTime,
+		created: currentTime,
 		text,
 	}))
 

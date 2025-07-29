@@ -11,7 +11,7 @@ import { createRelationships } from './create-relationships'
 export type Entity = {
 	name: string
 	observations: Array<{
-		datetime: string
+		created: string
 		text: string
 	}>
 }
@@ -20,7 +20,7 @@ export type Relationship = {
 	from: string
 	type: string
 	to: string
-	datetime: string
+	created: string
 }
 
 export type Graph = {

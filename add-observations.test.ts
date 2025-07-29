@@ -9,7 +9,7 @@ test('addObservations - adds observations to existing entity', () => {
 				name: 'John Smith',
 				observations: [
 					{
-						datetime: '2025-07-28 10:00:00',
+						created: '2025-07-28 10:00:00',
 						text: 'Existing observation',
 					},
 				],
@@ -26,15 +26,15 @@ test('addObservations - adds observations to existing entity', () => {
 	expect(result.entities).toHaveLength(1)
 	expect(result.entities[0]!.observations).toHaveLength(3)
 	expect(result.entities[0]!.observations[0]).toEqual({
-		datetime: '2025-07-28 10:00:00',
+		created: '2025-07-28 10:00:00',
 		text: 'Existing observation',
 	})
 	expect(result.entities[0]!.observations[1]!.text).toBe('John Smith is a carpenter.')
 	expect(result.entities[0]!.observations[2]!.text).toBe('John Smith lives in Seattle.')
-	expect(result.entities[0]!.observations[1]!.datetime).toMatch(
+	expect(result.entities[0]!.observations[1]!.created).toMatch(
 		/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
 	)
-	expect(result.entities[0]!.observations[2]!.datetime).toMatch(
+	expect(result.entities[0]!.observations[2]!.created).toMatch(
 		/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
 	)
 })
@@ -55,7 +55,7 @@ test('addObservations - adds observations to entity with no existing observation
 	expect(result.entities).toHaveLength(1)
 	expect(result.entities[0]!.observations).toHaveLength(1)
 	expect(result.entities[0]!.observations[0]!.text).toBe('Jane Doe is a teacher.')
-	expect(result.entities[0]!.observations[0]!.datetime).toMatch(
+	expect(result.entities[0]!.observations[0]!.created).toMatch(
 		/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
 	)
 })
@@ -83,7 +83,7 @@ test('addObservations - handles empty observations array', () => {
 				name: 'John Smith',
 				observations: [
 					{
-						datetime: '2025-07-28 10:00:00',
+						created: '2025-07-28 10:00:00',
 						text: 'Existing observation',
 					},
 				],
@@ -97,7 +97,7 @@ test('addObservations - handles empty observations array', () => {
 	expect(result.entities).toHaveLength(1)
 	expect(result.entities[0]!.observations).toHaveLength(1)
 	expect(result.entities[0]!.observations[0]).toEqual({
-		datetime: '2025-07-28 10:00:00',
+		created: '2025-07-28 10:00:00',
 		text: 'Existing observation',
 	})
 })
@@ -113,7 +113,7 @@ test('addObservations - preserves other entities unchanged', () => {
 				name: 'Jane Doe',
 				observations: [
 					{
-						datetime: '2025-07-28 12:00:00',
+						created: '2025-07-28 12:00:00',
 						text: 'Jane observation',
 					},
 				],
@@ -124,7 +124,7 @@ test('addObservations - preserves other entities unchanged', () => {
 				from: 'John Smith',
 				type: 'knows',
 				to: 'Jane Doe',
-				datetime: '2025-07-28 12:00:00',
+				created: '2025-07-28 12:00:00',
 			},
 		],
 	}
@@ -135,7 +135,7 @@ test('addObservations - preserves other entities unchanged', () => {
 	expect(result.entities[0]!.observations).toHaveLength(1)
 	expect(result.entities[1]!.observations).toHaveLength(1)
 	expect(result.entities[1]!.observations[0]).toEqual({
-		datetime: '2025-07-28 12:00:00',
+		created: '2025-07-28 12:00:00',
 		text: 'Jane observation',
 	})
 	expect(result.relationships).toEqual([
@@ -143,7 +143,7 @@ test('addObservations - preserves other entities unchanged', () => {
 			from: 'John Smith',
 			type: 'knows',
 			to: 'Jane Doe',
-			datetime: '2025-07-28 12:00:00',
+			created: '2025-07-28 12:00:00',
 		},
 	])
 })
@@ -155,7 +155,7 @@ test('addObservations - preserves original graph immutably', () => {
 				name: 'John Smith',
 				observations: [
 					{
-						datetime: '2025-07-28 10:00:00',
+						created: '2025-07-28 10:00:00',
 						text: 'Original observation',
 					},
 				],

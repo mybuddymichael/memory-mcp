@@ -26,9 +26,9 @@ test('deleteEntities removes related relationships', () => {
 			{ name: 'Bob Wilson', observations: [] },
 		],
 		relationships: [
-			{ from: 'John Smith', type: 'knows', to: 'Jane Doe', datetime: '2025-07-28 12:00:00' },
-			{ from: 'Jane Doe', type: 'works with', to: 'Bob Wilson', datetime: '2025-07-28 12:00:00' },
-			{ from: 'Bob Wilson', type: 'reports to', to: 'John Smith', datetime: '2025-07-28 12:00:00' },
+			{ from: 'John Smith', type: 'knows', to: 'Jane Doe', created: '2025-07-28 12:00:00' },
+			{ from: 'Jane Doe', type: 'works with', to: 'Bob Wilson', created: '2025-07-28 12:00:00' },
+			{ from: 'Bob Wilson', type: 'reports to', to: 'John Smith', created: '2025-07-28 12:00:00' },
 		],
 	}
 
@@ -40,7 +40,7 @@ test('deleteEntities removes related relationships', () => {
 		from: 'Jane Doe',
 		type: 'works with',
 		to: 'Bob Wilson',
-		datetime: '2025-07-28 12:00:00',
+		created: '2025-07-28 12:00:00',
 	})
 })
 
