@@ -10,9 +10,9 @@ test('deleteRelationships removes specified relationships', () => {
 			{ name: 'Bob Wilson', observations: [] },
 		],
 		relationships: [
-			{ from: 'John Smith', type: 'knows', to: 'Jane Doe' },
-			{ from: 'Jane Doe', type: 'works with', to: 'Bob Wilson' },
-			{ from: 'Bob Wilson', type: 'reports to', to: 'John Smith' },
+			{ from: 'John Smith', type: 'knows', to: 'Jane Doe', datetime: '2025-07-28 12:00:00' },
+			{ from: 'Jane Doe', type: 'works with', to: 'Bob Wilson', datetime: '2025-07-28 12:00:00' },
+			{ from: 'Bob Wilson', type: 'reports to', to: 'John Smith', datetime: '2025-07-28 12:00:00' },
 		],
 	}
 
@@ -28,6 +28,7 @@ test('deleteRelationships removes specified relationships', () => {
 		from: 'Jane Doe',
 		type: 'works with',
 		to: 'Bob Wilson',
+		datetime: '2025-07-28 12:00:00',
 	})
 	expect(result.entities).toEqual(graph.entities)
 })
@@ -38,7 +39,7 @@ test('deleteRelationships handles non-existent relationships gracefully', () => 
 			{ name: 'John Smith', observations: [] },
 			{ name: 'Jane Doe', observations: [] },
 		],
-		relationships: [{ from: 'John Smith', type: 'knows', to: 'Jane Doe' }],
+		relationships: [{ from: 'John Smith', type: 'knows', to: 'Jane Doe', datetime: '2025-07-28 12:00:00' }],
 	}
 
 	const relationshipsToDelete = [
@@ -58,7 +59,7 @@ test('deleteRelationships returns unchanged graph when no relationships to delet
 			{ name: 'John Smith', observations: [] },
 			{ name: 'Jane Doe', observations: [] },
 		],
-		relationships: [{ from: 'John Smith', type: 'knows', to: 'Jane Doe' }],
+		relationships: [{ from: 'John Smith', type: 'knows', to: 'Jane Doe', datetime: '2025-07-28 12:00:00' }],
 	}
 
 	const result = deleteRelationships(graph, [])

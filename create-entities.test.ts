@@ -40,6 +40,7 @@ test('createEntities - adds new entities to existing graph', () => {
 				from: 'Entity A',
 				type: 'related to',
 				to: 'Entity B',
+				datetime: '2025-07-28 12:00:00',
 			},
 		],
 	}
@@ -65,6 +66,7 @@ test('createEntities - adds new entities to existing graph', () => {
 			from: 'Entity A',
 			type: 'related to',
 			to: 'Entity B',
+			datetime: '2025-07-28 12:00:00',
 		},
 	])
 })

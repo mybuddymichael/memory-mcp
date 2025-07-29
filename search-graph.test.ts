@@ -47,8 +47,8 @@ const mockGraph: Graph = {
 		},
 	],
 	relationships: [
-		{ from: 'John Smith', type: 'father of', to: 'Tim Smith' },
-		{ from: 'Alice Johnson', type: 'friend of', to: 'Tim Smith' },
+		{ from: 'John Smith', type: 'father of', to: 'Tim Smith', datetime: '2025-07-28 12:00:00' },
+		{ from: 'Alice Johnson', type: 'friend of', to: 'Tim Smith', datetime: '2025-07-28 12:00:00' },
 	],
 }
 

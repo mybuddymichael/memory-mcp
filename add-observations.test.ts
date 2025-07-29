@@ -124,6 +124,7 @@ test('addObservations - preserves other entities unchanged', () => {
 				from: 'John Smith',
 				type: 'knows',
 				to: 'Jane Doe',
+				datetime: '2025-07-28 12:00:00',
 			},
 		],
 	}
@@ -142,6 +143,7 @@ test('addObservations - preserves other entities unchanged', () => {
 			from: 'John Smith',
 			type: 'knows',
 			to: 'Jane Doe',
+			datetime: '2025-07-28 12:00:00',
 		},
 	])
 })

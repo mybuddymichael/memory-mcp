@@ -20,6 +20,7 @@ export type Relationship = {
 	from: string
 	type: string
 	to: string
+	datetime: string
 }
 
 export type Graph = {
