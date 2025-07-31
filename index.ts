@@ -38,7 +38,7 @@ server.registerTool(
 	{
 		title: 'Create entities',
 		description:
-			'Create new entities in the graph. Always use sentence case for entity names, unless they are proper nouns.',
+			'Create new entities in the graph. Always use sentence case (first letter should be capitalized) for entity names, unless they are proper nouns.',
 		inputSchema: {
 			entity_names: z.array(z.string()),
 		},
@@ -115,9 +115,9 @@ server.registerTool(
 		description: 'Search the graph for nodes that match the keywords provided.',
 		inputSchema: {
 			keywords: z
-				.string()
+				.array(z.string())
 				.describe(
-					'Keywords separated by spaces. Multi-word keywords should be put within quote pairs.',
+					'Array of search keywords to match against entities and relationships. Each keyword will be searched individually (union, not intersection).',
 				),
 		},
 	},

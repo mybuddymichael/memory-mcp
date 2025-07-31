@@ -2,35 +2,11 @@ import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js'
 import type { Entity, Graph, Relationship } from './index'
 import { loadGraph } from './graph'
 
-export function parseSearchTerms(keywords: string): string[] {
-	const terms: string[] = []
-	let current = ''
-	let inQuotes = false
-	let quoteChar = ''
-
-	for (const char of keywords) {
-		if ((char === '"' || char === "'") && !inQuotes) {
-			inQuotes = true
-			quoteChar = char
-		} else if (char === quoteChar && inQuotes) {
-			inQuotes = false
-			quoteChar = ''
-		} else if (char === ' ' && !inQuotes) {
-			if (current) terms.push(current)
-			current = ''
-		} else {
-			current += char
-		}
-	}
-	if (current) terms.push(current)
-	return terms
-}
-
 export function searchGraph(
 	graph: Graph,
-	keywords: string,
+	keywords: string[],
 ): { entities: Entity[]; relationships: Relationship[] } {
-	const searchTerms = parseSearchTerms(keywords).map((term) => term.toLowerCase())
+	const searchTerms = keywords.map((term) => term.toLowerCase())
 
 	const entities = graph.entities.filter((entity) =>
 		searchTerms.some(
@@ -55,7 +31,7 @@ export function searchGraph(
 export async function searchGraphHandler({
 	keywords,
 }: {
-	keywords: string
+	keywords: string[]
 }): Promise<CallToolResult> {
 	const graph = await loadGraph()
 	const result = searchGraph(graph, keywords)
