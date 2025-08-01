@@ -14,6 +14,7 @@ This is a reimplementation of the [knowledge graph memory server](https://github
 |------|-------------|
 | create_entities | Create new entities in the knowledge graph |
 | delete_entities | Remove entities and their associated relationships |
+| rename_entity | Rename an entity, merging with existing entity if name already exists |
 | add_observations | Add contextual information to existing entities |
 | create_relationships | Establish connections between entities |
 | delete_relationships | Remove specific connections between entities |

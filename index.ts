@@ -7,6 +7,7 @@ import { addObservationsHandler } from './add-observations'
 import { createRelationshipsHandler } from './create-relationships'
 import { deleteRelationshipsHandler } from './delete-relationships'
 import { searchGraphHandler } from './search-graph'
+import { renameEntityHandler } from './rename-entity'
 
 export type Entity = {
 	name: string
@@ -56,6 +57,20 @@ server.registerTool(
 		},
 	},
 	deleteEntitiesHandler,
+)
+
+server.registerTool(
+	'rename_entity',
+	{
+		title: 'Rename entity',
+		description:
+			'Rename an entity in the graph. If the new name already exists, merge observations from both entities.',
+		inputSchema: {
+			current: z.string().describe('The current name of the entity to rename'),
+			new: z.string().describe('The new name for the entity'),
+		},
+	},
+	renameEntityHandler,
 )
 
 server.registerTool(
